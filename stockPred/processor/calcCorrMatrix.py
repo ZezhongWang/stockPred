@@ -6,9 +6,9 @@ class CalcCorrMatrix(object):
     # Jia heng Li
 
     # read from original files
-    def run(self):
+    def run(self, filepath):
         corr_pairs = []
-        stock_panel = self.readfiles()
+        stock_panel = self.readfiles(filepath)
 
         # delete empty data
         for item, value in stock_panel.iteritems():
@@ -35,8 +35,8 @@ class CalcCorrMatrix(object):
 
         return corr_pairs
 
-    def readfiles(self):
-        path = os.walk('/bbox/data/5min')
+    def readfiles(self, filepath):
+        path = os.walk(filepath)
         root = ""
         files = []
         for root_path, dirs, contained_files in path:
