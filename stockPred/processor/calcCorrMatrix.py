@@ -1,11 +1,18 @@
 import os
 import pandas as pd
 
+'''
+
+        input: file path: read data
+
+        output: stock pairs with correlations greater than 0.5
+
+'''
+
 
 class CalcCorrMatrix(object):
     # Jia heng Li
 
-    # read from original files
     def run(self, filepath):
         corr_pairs = []
         stock_panel = self.readfiles(filepath)
