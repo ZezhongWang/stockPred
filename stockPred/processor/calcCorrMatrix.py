@@ -13,13 +13,16 @@ import pandas as pd
 class CalcCorrMatrix(object):
     # Jia heng Li
 
-    def run(self, filepath):
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def run(self):
         corr_pairs = []
-        stock_panel = self.readfiles(filepath)
+        stock_panel = self.readfiles(self.filepath)
 
         stock_panel = self.del_empty_frame(stock_panel)
 
-        # calculate correlations and get correlate pairs
+        # calculate correlations, return the correlations of stock_code
         key = ['p_change']
         for key_iter in range(len(key)):
             compare = []
@@ -29,17 +32,11 @@ class CalcCorrMatrix(object):
             compare_frame = compare_frame.transpose()
             corr = compare_frame.corr()
             corr = pd.DataFrame(corr.values, index=stock_panel.items, columns=stock_panel.items)
-            corr = corr[corr.abs() >= 0.3]
-            corr = corr.dropna(axis=1, how='all').dropna(axis=0, how='all')
-            for index, items in corr.iterrows():
-                for columns in items.index:
-                    if abs(items[columns]) > 0:
-                        corr_pairs.append([items, columns, items[columns]])
 
-        return corr_pairs
+        return corr
 
-    def readfiles(self, filepath):
-        path = os.walk(filepath)
+    def readfiles(self):
+        path = os.walk(self.filepath)
         root = ""
         files = []
         for root_path, dirs, contained_files in path:
