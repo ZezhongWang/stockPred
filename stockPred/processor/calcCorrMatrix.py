@@ -33,7 +33,7 @@ class CalcCorrMatrix(object):
             df = pd.DataFrame(compare)
             df = df.transpose()
             corr = pd.DataFrame(corr.values, index=stock_panel.items, columns=stock_panel.items)
-            corr = corr[corr >= 0.5]
+            corr = corr[corr.abs() >= 0.3]
             corr = corr.dropna(axis=1, how='all').dropna(axis=0, how='all')
             for index, items in corr.iterrows():
                 for columns in items.index:
