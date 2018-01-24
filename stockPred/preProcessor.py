@@ -1,12 +1,15 @@
 from processor.calcCorrMatrix import CalcCorrMatrix
 from processor.cleanData import CleanData
-from dataGenerator import DataGenerator
+from processor.dataGenerator import DataGenerator
 
 
 class PreProcessor(object):
 
+    def __init__(self, file_path):
+        self.file_path = file_path
+
     def run(self):
-        clean_data = CleanData()
+        clean_data = CleanData(self.file_path)
         clean_data.run()
 
         calc_corr = CalcCorrMatrix()
