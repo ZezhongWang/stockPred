@@ -33,8 +33,8 @@ class CalcCorrMatrix(object):
             corr = corr.dropna(axis=1, how='all').dropna(axis=0, how='all')
             for index, items in corr.iterrows():
                 for columns in items.index:
-                    if items[columns] > 0:
-                        corr_pairs.append([items, columns])
+                    if abs(items[columns]) > 0:
+                        corr_pairs.append([items, columns, items[columns]])
 
         return corr_pairs
 
