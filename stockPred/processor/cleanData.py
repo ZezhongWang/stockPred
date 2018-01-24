@@ -22,8 +22,6 @@ class CleanData(object):
             # codeData=codeData.insert(9,'p_change',p_change)
             try:
                 code_begin_pos = file_path.rfind('/')
-                print file_path
-                # print code_data
                 code_data.to_csv(os.path.join(self.write_path+file_path[code_begin_pos:]))
             except AttributeError:
                 pass
@@ -44,5 +42,6 @@ class CleanData(object):
 
 
 if __name__ == '__main__':
-    data_cleaner = CleanData('/bbox/data/5min')
+    path = '/home/w2w/PycharmProjects/stockPred/5min/'
+    data_cleaner = CleanData(path)
     data_cleaner.run()

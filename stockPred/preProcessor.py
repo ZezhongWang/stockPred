@@ -1,6 +1,5 @@
 from processor.calcCorrMatrix import CalcCorrMatrix
 from processor.cleanData import CleanData
-from processor.dataGenerator import DataGenerator
 
 
 class PreProcessor(object):
@@ -15,9 +14,5 @@ class PreProcessor(object):
         calc_corr = CalcCorrMatrix()
         calc_corr.run()
 
-        data_generator = DataGenerator()
-        train_feature, train_label, test_feature, test_label = data_generator.run()
-
-        return train_feature, train_label, test_feature, test_label
 
 

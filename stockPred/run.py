@@ -1,8 +1,8 @@
 from preProcessor import PreProcessor
 import argparse
-from regression import Regression
+from learningModel import LearningModel
 from picDrawer import PicDrawer
-
+from dataGenerator import DataGenerator
 
 if __name__ == '__main__':
 
@@ -20,25 +20,30 @@ if __name__ == '__main__':
     parser.add_argument("code", type=int, help="the stock code you want to predict")
     parser.add_argument("-r", "--ratio", type=float,
                         default=0.1, help="the validate data set ratio")
-    parser.add_argument("-p", "--preprocess", type=bool, help="preprocessing or not",
-                        default=True)
+    parser.add_argument("-p", "--preprocess", help="preprocessing or not",action='store_true')
     args = parser.parse_args()
 
     file_path = args.filepath
-
+    code = str(args.code)
     # create pre processor
-    if args.p == True:
+    print args.preprocess
+    if args.preprocess:
         data_cleaner = PreProcessor(file_path)
-        train_feature, train_label, test_feature, test_label = data_cleaner.run()
+        data_cleaner.run()
 
-    reg = Regression()
+    data_generator = DataGenerator(file_path, code)
+    train_feature, train_label, test_feature, test_label = data_generator.run()
+    reg = LearningModel()
     reg.fit(train_feature, train_label)
     pred_result = reg.predict(test_feature)
-
-    score = reg.score(test_label, pred_result)
-
-    drawer = PicDrawer()
-    drawer.run()
+    print pred_result
+    score = reg.predict(test_feature, test_label)
+    print score
+    #
+    # # score = reg.score(test_label, pred_result)
+    #
+    # drawer = PicDrawer()
+    # drawer.run()
 
 
 
