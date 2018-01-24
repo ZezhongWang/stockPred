@@ -17,12 +17,7 @@ class CalcCorrMatrix(object):
         corr_pairs = []
         stock_panel = self.readfiles(filepath)
 
-        # delete empty data
-        for item, value in stock_panel.iteritems():
-            stock_frame = stock_panel[item]
-            stock_frame = stock_frame.dropna(axis=1, how='all')
-            if len(stock_frame.columns) == 0:
-                stock_panel = stock_panel.drop([item], axis=0)
+        stock_panel = self.del_empty_frame(stock_panel)
 
         # calculate correlations and get correlate pairs
         key = ['p_change']
@@ -30,8 +25,9 @@ class CalcCorrMatrix(object):
             compare = []
             for item, value in stock_panel.iteritems():
                 compare.append(value[key[key_iter]].tolist())
-            df = pd.DataFrame(compare)
-            df = df.transpose()
+            compare_frame = pd.DataFrame(compare)
+            compare_frame = compare_frame.transpose()
+            corr = compare_frame.corr()
             corr = pd.DataFrame(corr.values, index=stock_panel.items, columns=stock_panel.items)
             corr = corr[corr.abs() >= 0.3]
             corr = corr.dropna(axis=1, how='all').dropna(axis=0, how='all')
@@ -58,5 +54,15 @@ class CalcCorrMatrix(object):
             stock_code = one_file.split('.')[0]
             stock_dict[stock_code] = stock_data
         stock_panel = pd.Panel(stock_dict)
+
+        return stock_panel
+
+    def del_empty_frame(self, stock_panel):
+        # delete empty data
+        for item, value in stock_panel.iteritems():
+            stock_frame = stock_panel[item]
+            stock_frame = stock_frame.dropna(axis=1, how='all')
+            if len(stock_frame.columns) == 0:
+                stock_panel = stock_panel.drop([item], axis=0)
 
         return stock_panel
