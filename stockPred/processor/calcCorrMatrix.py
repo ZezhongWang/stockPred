@@ -1,9 +1,11 @@
 import os
 import pandas as pd
 
+
 class CalcCorrMatrix(object):
     # Jia heng Li
 
+    # read from original files
     def run(self):
         corr_pairs = []
         stock_panel = self.readfiles()
@@ -23,9 +25,8 @@ class CalcCorrMatrix(object):
                 compare.append(value[key[key_iter]].tolist())
             df = pd.DataFrame(compare)
             df = df.transpose()
-            corr = df.corr()
             corr = pd.DataFrame(corr.values, index=stock_panel.items, columns=stock_panel.items)
-            corr = corr[corr>0.5]
+            corr = corr[corr >= 0.5]
             corr = corr.dropna(axis=1, how='all').dropna(axis=0, how='all')
             for index, items in corr.iterrows():
                 for columns in items.index:
