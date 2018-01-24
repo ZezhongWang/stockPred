@@ -36,6 +36,9 @@ class DataGenerator(object):
         time = data_set.columns[-2]
         le = preprocessing.LabelEncoder()
         data_set[time] = le.fit_transform(data_set[time])
+        norm = preprocessing.Normalizer()
+        features_col = data_set.columns[:-1]
+        data_set[features_col] = norm.fit_transform(data_set[features_col])
         return data_set
 
     def train_test_split(self, data_set):

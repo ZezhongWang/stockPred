@@ -1,4 +1,5 @@
 from sklearn import linear_model
+from sklearn import svm
 
 
 class LearningModel(object):
@@ -7,6 +8,8 @@ class LearningModel(object):
         self._method = method
         if method == 'LinearRegression':
             self.reg = linear_model.LinearRegression()
+        if method == 'svm':
+            self.reg = svm.SVR(C=0.1)
 
     def fit(self, train_data, train_label):
         self.reg.fit(train_data, train_label)
@@ -18,3 +21,10 @@ class LearningModel(object):
     def score(self, train_data, test_label):
         score = self.reg.score(train_data, test_label)
         return score
+
+    def MSE(self, test_label, pred_label):
+        length = len(test_label)
+        mse = 0
+        for index in range(length):
+            mse += (test_label[index]-pred_label[index])**2
+        return mse
