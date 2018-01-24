@@ -14,7 +14,7 @@ class CalcCorrMatrix(object):
     # Jia heng Li
 
     def __init__(self):
-        self.file_path = "../data"
+        self.file_path = "../data/"
 
     def run(self):
         corr_pairs = []
