@@ -5,7 +5,7 @@ import pandas as pd
 
         input: file path: read data
 
-        output: stock pairs with correlations greater than 0.5
+        output: stock pairs with correlations abs greater than 0.3
 
 '''
 
