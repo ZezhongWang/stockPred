@@ -49,6 +49,9 @@ class CalcCorrMatrix(object):
             if stock_data.empty:
                 continue
             stock_code = one_file.split('.')[0]
+            date = stock_data['time']
+            stock_data = stock_data.drop(['time'], axis=1)
+            stock_data = pd.DataFrame(stock_data.values, index=date)
             stock_dict[stock_code] = stock_data
         stock_panel = pd.Panel(stock_dict)
 
