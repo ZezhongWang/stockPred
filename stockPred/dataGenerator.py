@@ -4,9 +4,10 @@ from util import *
 
 class DataGenerator(object):
     # ze zhong wang
-    def __init__(self, file_path, code):
+    def __init__(self, file_path, code, test_set_ratio):
         self.file_path = file_path
         self.code = code
+        self.test_set_ratio = test_set_ratio
         self.file_list = get_file_list(file_path)
         self.stocks_data_dict = load_all_data(self.file_list)
 
@@ -29,6 +30,23 @@ class DataGenerator(object):
                 data_set.append(features)
         return pd.DataFrame(data_set)
 
+    def train_test_split(self, data_set):
+        num = len(data_set)
+        data_set_columns = data_set.columns
+        feature_columns = data_set_columns[:-1]
+        # assume that label always is the last columns
+        label_columns = data_set_columns[-1]
+        test_num = int(num * self.test_set_ratio)
+        # train data part
+        train_data = data_set[:-test_num]
+        train_feature = train_data[feature_columns]
+        train_label = train_data[label_columns]
+        # test data part
+        test_data = data_set[-test_num:].reset_index(drop=True)
+        test_feature = test_data[feature_columns]
+        test_label = test_data[label_columns]
+        return train_feature, train_label, test_feature, test_label
+
     def run(self):
-        
+
         return train_feature, train_label, test_feature, test_label
