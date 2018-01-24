@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from util import *
-
+from sklearn import preprocessing
 
 class DataGenerator(object):
     # ze zhong wang
@@ -27,12 +27,16 @@ class DataGenerator(object):
             # but we don't guarantee that the features and label
             # are in the same afternoon or morning
             if day_ahead == day:
-                features = list(origin_df.iloc[range(index + 1, ahead_num + index + 1)]['p_change'])
+                features = list(origin_df[index + 1:ahead_num + index + 1]['p_change'])
                 features.append(row[time_column])
                 label = float(row['p_change'])
                 features.append(label)
                 data_set.append(features)
-        return pd.DataFrame(data_set)
+        data_set = pd.DataFrame(data_set)
+        time = data_set.columns[-2]
+        le = preprocessing.LabelEncoder()
+        data_set[time] = le.fit_transform(data_set[time])
+        return data_set
 
     def train_test_split(self, data_set):
         num = len(data_set)
@@ -51,10 +55,11 @@ class DataGenerator(object):
         test_label = test_data[label_columns]
         return train_feature, train_label, test_feature, test_label
 
+
     def run(self):
         single_data_set = self.get_code_data_set(self.code, self.ahead_num)
-        train_feature, train_label, test_feature, test_label = self.train_test_split(single_data_set)
-        return train_feature, train_label, test_feature, test_label
+        return self.train_test_split(single_data_set)
+
 
 if __name__ == '__main__':
     path = '/home/w2w/PycharmProjects/stockPred/stockPred/data/'

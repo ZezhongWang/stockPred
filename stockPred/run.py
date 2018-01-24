@@ -36,8 +36,10 @@ if __name__ == '__main__':
     reg = LearningModel()
     reg.fit(train_feature, train_label)
     pred_result = reg.predict(test_feature)
-    print pred_result
-    score = reg.predict(test_feature, test_label)
+    # print type(pred_result)
+    # print type(test_label)
+
+    score = reg.score(test_feature, test_label)
     print score
     #
     # # score = reg.score(test_label, pred_result)

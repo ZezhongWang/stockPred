@@ -36,3 +36,6 @@ def get_code(file_path):
     code = file_path[dir_length+1:-post_fix_length]
     return code
 
+def standard_transformation(data_frame, column):
+    pass
+

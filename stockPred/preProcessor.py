@@ -11,8 +11,9 @@ class PreProcessor(object):
         clean_data = CleanData(self.file_path)
         clean_data.run()
 
-        calc_corr = CalcCorrMatrix()
-        calc_corr.run()
+        data_transformer = DataTransformer()
 
+        # calc_corr = CalcCorrMatrix()
+        # calc_corr.run()
 
 
